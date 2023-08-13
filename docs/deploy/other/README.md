@@ -2,21 +2,18 @@
 
 ## 访问
 
-要访问网页控制台，首先确保 `setting.yml` 中 `webConsole.enable` 设置为 `true` 。
+要访问网页控制台，首先确保 `console/webConsole.yml => enable` 设置为 `true` 。
+
+## 部署
 
 ### 本地部署
 
-当 `webConsole.consolePort` 设置为 `80` 时，直接在浏览器中访问 `localhost` 即可。若设置不为 `80` ，则访问 `localhost:对应设置值` 。
+当 `base.yml => renderPort` 设置为 `80` 时，直接在浏览器中访问 `localhost` 即可。若设置为 `80` 以外的值 ，则访问 `localhost:对应设置值` 。
 
 ### 云端部署
 
-应用部署在云服务器时，首先需要知道服务器的公网 IP 。当 `webConsole.consolePort` 设置为 `80` 时，直接在任意设备的浏览器中访问 IP 地址即可。若设置不为 `80`
+应用部署在云服务器时，首先需要知道服务器的公网 IP 。当 `base.yml => renderPort` 设置为 `80` 时，直接在任意设备的浏览器中访问 IP 地址即可。若设置为 `80` 以外的值
 ，你需要先在云服务商的控制台处设置防火墙或安全组，再访问 `IP:对应设置值` 。下面以阿里云为例，介绍如何设置端口。
-
-### Docker 部署
-
-Docker部署成功后，默认下访问 IP (本地为 localhost，服务器为 服务器公网 IP) 即可直接访问。但如果你希望修改访问的端口，无需修改 `webConsole.consolePort`
-，仅对 `docker-compose.yml` 中 `services.bot.ports` 的第一个 80 进行修改即可，修改后需要执行 `docker-compose up -d` 来使修改生效。
 
 #### 轻量应用服务器
 
@@ -40,19 +37,34 @@ Docker部署成功后，默认下访问 IP (本地为 localhost，服务器为 �
 
 ![](/console/ecs-3.png)
 
-### 域名解析
+#### 域名解析
 
 在已有域名中设置域名解析（A 记录类型）到服务器公网 IP 即可通过域名访问 `Web Console`
 
 ~~赞助领取 adachi.top 二级域名解析~~
 
+### Docker 部署
+
+Docker 部署成功后，默认下访问 IP (本地为 localhost，服务器为 服务器公网 IP) 即可直接访问。但如果你希望修改访问的端口，无需修改 `base.yml => renderPort`
+，仅对 `docker-compose.yml` 中 `services.bot.ports` 的第一个 80 进行修改即可，修改后需要执行 `docker-compose up -d` 来使修改生效。
+
 ## 使用
+
+### 注册
+
+初次访问控制台时，默认打开管理员账号注册页面。需要使用随机密钥来辅助进行注册。
+
+密钥被存放于 `data/registration_key.txt` 内，每次 bot 启动时都会生成一个随机密钥。
 
 ### 登录
 
-访问控制台需要使用 `BOT` 的账号和密码进行登录验证，该验证的有效期为一天，验证到期后需重新登录。
+访问控制台需要使用管理员账号进行登录验证，该验证的有效期为一天，验证到期后需重新登录。
 
-由于控制台具有**最高管理权限**，请务必不要泄露 `BOT` 的账号和密码。
+由于控制台具有**最高管理权限**，请务必不要泄露管理员账号的密码。
+
+### 忘记密码
+
+直接删除 `data/registration_key.txt` 文件，重启即可再次进入管理员账号创建页面。
 
 ### 控制台
 

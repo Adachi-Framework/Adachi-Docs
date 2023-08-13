@@ -1,3 +1,7 @@
+---
+sidebar: auto
+---
+
 # 常见问题解答
 
 ## 登录报错「群消息发送失败，请检查消息内容」？
@@ -99,26 +103,6 @@ git pull
 
 所得的 cookie 缺乏签到所需的必要字段，这种多为登陆时间过久导致，可尝试退出登录后重新登陆获取 `cookie`。
 
-## 从较低版本更新至 v2.0.8+ 后，启动时报错？
-
-需执行 `npm install` 更新 `oicq` 版本。
-
-## 更新至 v2.2.0+ 后，终端无输出？
-
-在启用 `Web Console` 时，为节约计算资源，终端日志输出已关闭，所以终端无输出属正常情况。
-
-## 更新至 v2.4.7+ 后，启动时报错？
-
-需执行 `npm install` 来安装新的 `pm2` 和 `tencentcloud-sdk-nodejs-nlp` 依赖包。
-
 ## 使用指令更新、重启等操作时提示 Error: process or namespace not found？
 
 `win-start` 启动方式无法使用上述操作，请改为 `npm start` 方式启动。
-
-## 用不惯新版的 npm start，如何回到以前的终端打印日志方式？
-
-执行 `npm run win-start` 即可，其他操作与旧版一致。但请注意，以该种方式启动的 BOT，将无法使用 指令更新、指令重启、指令更新插件 指令。
-
-## 登陆提示 “当前QQ版本过低，请升级至最新版本后再登录”
-
-打开项目中的 `data -> (QQ号目录名) -> device-xxxxxxxxx.json`，保证原本格式的情况下任意修改 `board`、`imei` 与 `incremental` 三个值。改后重新启动项目即可。

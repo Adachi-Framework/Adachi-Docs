@@ -42,8 +42,8 @@
 
 ### 环境
 
-你需要先为机器人准备 `Node.js` 的运行环境，你可以在 [这里](https://nodejs.org/download/release/v14.17.2/) 找到正确的版本。选择 `node-v14.17.2-x64.msi`
-，这是为 64位 系统准备的版本，如果你正在自己的电脑上进行这些步骤，并且你的电脑安装的是 32位 系统，请选择 `node-v14.17.2-x86.msi` ~~（这年头不会还有人用 32位 吧）~~
+你需要先为机器人准备 `Node.js` 的运行环境，你可以在 [这里](https://nodejs.org/download/release/v16.14.0/) 找到正确的版本。选择 `node-v16.14.0-x64.msi`
+，这是为 64位 系统准备的版本，如果你正在自己的电脑上进行这些步骤，并且你的电脑安装的是 32位 系统，请选择 `node-v16.14.0-x86.msi` ~~（这年头不会还有人用 32位 吧）~~
 。你也不需要为英文的安装界面所烦恼，不需要考虑安装路径，看到能勾选的地方勾选即可，然后无脑「Next」就好。
 
 安装完成后最好检查版本是否正确，同时按下 Windows键 + R，在「打开」右侧的输入框中输入 `cmd`，回车打开命令行，分别输入 `node -v` 和 `npm -v` ，看到下面的输出就算环境安装成功。
@@ -71,48 +71,46 @@ ZIP」，下载到你指定的地方解压即可。
 
 ### 数据库安装
 
-进入 [GitHub](https://github.com/microsoftarchive/redis/releases/tag/win-3.2.100) 选择 `Redis-x64-3.2.100.zip`
-进行下载并解压，然后把BOT项目中的 `redis.conf` 文件复制到解压后的目录里然后把文件里的 `dir /data/` 改为 `dir ./` ，把 `port 56379` 改为 `port 6379`
-（之后需要把BOT项目里 `config/setting.yml `里的 `dbport` 改为 `6379` ），之后新建一个文本文件，可以命名为 `start-redis.bat` （注意后缀名是 `.bat`
-，重命名文件时一定要把后缀名改掉不能是 `txt` ，至于怎么显示后缀名，不会可以百度下）。把下面的命令粘贴到这个脚本文件里，保存后双击运行，启动后不要关闭窗口。
-
-```bash
-.\redis-server.exe .\redis.conf
-```
+进入 [GitHub](https://github.com/tporadowski/redis/releases/tag/v5.0.14.1) 选择 `Redis-x64-5.0.14.1.zip` 进行下载并解压。
+然后双击 `redis-server.exe` 即可，弹窗不要关闭保持打开状态。
 
 ### 配置
 
 首先进入 `Adachi-BOT` 文件夹，依照上面的方法打开 `Git Bash` 命令行，输入以下两行代码来安装程序所需的文件。
 
 ```bash
-# 设置 npm 国内镜像
+# 设置 npm 国内镜像源
 npm config set registry https://registry.npmmirror.com
 
+# 全局安装 pnpm
+npm i pnpm -g
+
+# 设置 pnpm 国内镜像源
+pnpm config set registry https://registry.npmmirror.com
+
 # 下载项目所需依赖
-npm install
+pnpm install
 ```
 
-然后输入 `npm start` ，这会在当前文件夹内创建一个 `config` 文件夹，这是用来配置机器人的文件夹。
+然后输入 `pnpm start` ，这会在当前文件夹内创建一个 `config` 文件夹，这是用来配置机器人的文件夹。
 
 由于服务器内自带的文件编辑器并不好用，这里建议你安装 [VSCode](https://code.visualstudio.com/) 。进入页面后点击「Download for
 Windows」即可。如果没有弹出下载窗口的话，可以在自己的电脑上下载好安装包复制进服务器进行安装。
 
-`config` 文件夹中包含 `setting.yml`, `cookies.yml` 和 `commands.yml` 三个文件，请按照 [这里](/config/)
-的信息进行配置，里面非常详细的说明了每个属性的作用。其中 `commands.yml` 不需要处理，只用管另外两个就好。
+`config` 文件夹中包含一系列 `yaml` 文件，请按照 [这里](../../config/base.md)
+的信息进行配置，里面非常详细的说明了每个属性的作用。其中 `commands.yml` 不需要处理，只用管其他部分就好。
 
-对于 `setting` ，一般情况下，你只需要配置 `number`, `password`, `master` 几个属性，其他的默认情况下都是最常用的属性。此外，注意将 `port` 改为 6379 。
+对于 `base.yml` ，一般情况下，你只需要配置 `wsServer`, `master` 几个属性，其他的默认情况下都是最常用的属性。
 
-对于 `cookies`
-，这是用来得到米游社数据的东西，每个米游社账号都是独一无二的，[这里](/faq/#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%BE%97%E7%B1%B3%E6%B8%B8%E7%A4%BE-cookies)
+如果你安装了 `genshin` 插件，还会发现一个 `genshin` 目录，里面存放了 `genshin` 插件的相关配置文件。
+
+对于 `genshin/cookies.yml`
+，这是用来得到米游社数据的东西，每个米游社账号都是独一无二的，[这里](../../faq/README.md#如何获得米游社-cookies-)
 会告诉你如何获得它。
 
 ### 运行
 
-一切准备就绪，输入 `npm restart` 即可启动机器人，然后保持窗口不关闭即可，远程桌面可以断开连接。现在机器人就能收发信息了。
-
-::: tip
-这里有一个容易犯的误区，~~包括B站上的那位作者也犯了~~，就是 `npm run login` 在这里并不需要使用，这条命令是用来帮助 `Docker` 启动验证设备的
-:::
+一切准备就绪，再次输入 `pnpm start` 即可启动机器人，然后保持窗口不关闭即可，远程桌面可以断开连接。现在机器人就能收发信息了。
 
 ### 更新
 
@@ -122,7 +120,7 @@ Windows」即可。如果没有弹出下载窗口的话，可以在自己的电�
 
 1. 在项目根目录下，输入 `git pull` 进行更新，若出现 `error: Yout local changes to the following files would be overwritten by merge:`
    ，说明本地存在修改记录无法更新。若记不起自己改了什么或无关紧要的修改，可执行 `git reset --hard` 来清除本地修改记录，然后再次尝试拉取。
-2. 运行 `npm restart` 重启。
+2. 运行 `npm start` 再次启动。
 
 #### 指令更新
 
@@ -157,7 +155,7 @@ pm2 log adachi-bot
 > 大佬，我想再请问一下，那个机器人的英文命令具体怎么更改呀，就是把mys改成米游社，aby改成深渊那种。我看您评论区里说init里面修改，但是我找不到abyss，只把command里面的abyss改成深渊可以吗
 
 在第一次成功运行机器人后，`config` 文件夹里的 `commands.yml` 文件会更新。对机器人发送 `#help -k` 可以看到每个功能的指令对应的 `key` ，在 `commands.yml`
-中找到你要修改的功能，然后按照 [这里](/config/#commands-yml) 介绍的进行更改即可，例如：
+中找到你要修改的功能，然后按照 [这里](../../config/commands.md) 介绍的进行更改即可，例如：
 
 下面的是深渊查询的指令配置，默认情况下 `caby` 用于查询本期深渊，`laby` 是上期深渊。
 
@@ -202,27 +200,6 @@ headers:
 ::: tip
 大多数时候，你不需要为一个命令配置大小写的关键词，如 `uid`, `Uid` 和 `UID`，只需要使用全小写的那个即可
 :::
-
-### 关于机器人账号
-
-> up最后的时候提示qq等级过低是什么问题啊？还特意去更新了一下qq不过暂时好像还是没用
-
-账号密码登录时，如果QQ账号等级（就那个星星月亮的等级）较低，因为服务器登录属于异地登录，可能被腾讯风控。
-
-这种情况一般把账号在服务器挂一段时间就行，或者选择把 `setting.yml` 中的 `qrcode` 改成 `true`，使用扫码的方式进行登录。
-
-### 运行机器人时卡住了
-
-> npm start之后
->
-> \> adachi-bot@2.2.0 start D:\test\Adachi-BOT-master
->
-> \> ts-node -r tsconfig-paths/register app.ts --files
-
-在你把 `setting.yml` 中的 `webConsole.enable` 设置为 `true` 时（**注意**，此时`jwtSecret`
-要随便填一点内容,否则启动会报错），这里不会打印出更多消息，你可以直接在外部访问你的服务器IP进入网页控制台，详细见 [控制台](/web-console/#%E8%AE%BF%E9%97%AE) 。
-
-且在 v2.6.4 以及更高的版本下，默认情况下 `jwtSecret` 将会随机生成，且在启动成功后将会在日志中给予提示。
 
 ## 结
 
