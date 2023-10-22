@@ -42,3 +42,7 @@ docker run -d -p 6379:6379 --name bot-redis -v /usr/data/redis:/data redis --app
 ## go-cqhttp
 
 adachi-bot 目前针对 [go-cqhttp](https://docs.go-cqhttp.org/) 进行了对接，需要通过 [go-cqhttp](https://docs.go-cqhttp.org/) 开启**正向 ws 通讯**来得以正常工作。
+
+::: tip
+这个[空间隙缝](../../extra/README.md)一样的东西刚刚钻进去一个永远十七岁的少女，要不要进去看看？
+:::
