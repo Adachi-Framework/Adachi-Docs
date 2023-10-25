@@ -11,6 +11,9 @@ node_modules
 dist
 *.local
 
+# adachi
+ali-oss.config.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
