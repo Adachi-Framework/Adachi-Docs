@@ -8,11 +8,11 @@ message 工具类就是用于处理这种情况，它可以自行创建发送消
 
 ## 创建发送消息方法
 
-工具类中提供了 `getSendMessageFunc()` 方法用于创建自定义发送消息方法。
+工具类中提供了 [createMessageSender()](../../api/global/message.md#createmessagesender) 方法用于创建自定义发送消息方法。
 
 被创建的自定义发送消息方法支持发送任意类型消息（包括合并转发消息），并会同步响应 `atUser` 配置项设置。
 
-方法一经创建，其发送的目标就已经被固定，无法改变。仅支持传入待发送内容与与是否携带 `at` 消息。详情可以查看 [消息发送方法](../../api/message.md#getSendMessageFunc)
+方法一经创建，其发送的目标就已经被固定，无法改变。仅支持传入待发送内容与是否 at 群内目标（群聊限定，私聊时不起作用）。
 
 ### 指定用户的私聊
 
@@ -22,18 +22,40 @@ message 工具类就是用于处理这种情况，它可以自行创建发送消
 import bot from "ROOT";
 import { MessageType } from "@/modules/message";
 
-const sendMessageFunc = bot.message.getSendMessageFunc( 114514191, MessageType.Private );
+const sendMessageFunc = bot.message.createMessageSender( MessageType.Private, 114514191 );
+sendMessageFunc( "吃了吗您" );
 ```
 
-### 指定群聊内的指定用户
+### 指定群聊内发送普通消息
 
-示例：对群号为 100000001 群聊内的 QQ 为 114514191 用户，创建消息发送方法：
+示例：对群号内为 100000001 的群聊，创建普通消息发送方法：
 
 ```ts
 import bot from "ROOT";
 import { MessageType } from "@/modules/message";
 
-const sendMessageFunc = bot.message.getSendMessageFunc( 114514191, MessageType.Group, 100000001 );
+const sendMessageFunc = bot.message.createMessageSender( MessageType.Group, 100000001 );
+sendMessageFunc( "吃了吗您" );
+````
+
+### 指定群聊内的指定用户
+
+示例：对群号为 100000001 群聊内的 QQ 为 114514191 用户，创建消息发送方法：
+
+相比上方示例来说，只需填写第三个参数即可。
+
+```ts
+import bot from "ROOT";
+import { MessageType } from "@/modules/message";
+
+const sendMessageFunc = bot.message.createMessageSender( MessageType.Group, 100000001, 114514191 );
+```
+
+被创建的消息方法调用时，默认情况下将会参照 `config.atUser` 配置项，来决定是否自动 at 群内目标用户。此行为可通过为生成的方法传入第二个参数来手动覆盖。
+
+```ts
+// 此时不论 config.atUser 的值如何，均不会 at 群内目标用户，仅发送普通群聊消息
+sendMessageFunc( "吃了吗您", false );
 ```
 
 ### 指定群聊内 at 全体成员
@@ -44,7 +66,8 @@ const sendMessageFunc = bot.message.getSendMessageFunc( 114514191, MessageType.G
 import bot from "ROOT";
 import { MessageType } from "@/modules/message";
 
-const sendMessageFunc = bot.message.getSendMessageFunc( "all", MessageType.Group, 100000001 );
+const sendMessageFunc = bot.message.createMessageSender( MessageType.Group, 100000001, "all" );
+sendMessageFunc( "吃了吗您" );
 ```
 
 ## 向 bot 主人发送消息

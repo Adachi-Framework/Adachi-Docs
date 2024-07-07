@@ -179,7 +179,7 @@ export default i => {
 }
 ```
 
-不论哪种方式，入口函数均接受一个 `InputParameter` 类型的入参对象，负责提供实现指令时可能需要使用到的工具和数据，详情可以查看 [InputParameter](#InputParameter)。
+不论哪种方式，入口函数均接受一个 [InputParameter](./input-parameter.md#inputparameter) 类型的入参对象，负责提供实现指令时可能需要使用到的工具和数据。
 
 ### typescript 类型支持
 

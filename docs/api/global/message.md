@@ -14,6 +14,8 @@ type SendFunc = ( content: core.Sendable | core.ForwardElem, allowAt?: boolean )
 
 ## getSendMessageFunc()
 
+> 该方法由于参数混乱且行为容易让开发者产生迷惑，已被弃置，将在未来的版本中移除，请使用 [createMessageSender](#createMessageSender) 方法代替
+
 ```ts
 interface MsgManagementMethod {
     getSendMessageFunc( userID: number | "all" | string, type: MessageType, groupID?: number ): SendFunc;
@@ -24,10 +26,35 @@ interface MsgManagementMethod {
 - `type` 发送位置（用户 / 群聊）
 - `groupID` 可选，群号，当 `type` 为群聊时需要传入
 - 返回值：发送消息方法
-  - `content` 发送内容
-  - `allowAt` 可选，默认 `true`，发送位置为群聊时是否 at 发送目标。
+    - `content` 发送内容
+    - `allowAt` 可选，默认 `true`，发送位置为群聊时是否 at 发送目标。只有显式传入 `false` 时才会覆盖 `config.atUser` 配置项
 
 创建一个目标固定的发送消息方法。
+
+## createMessageSender()
+
+```ts
+interface MessageManagementMethod {
+    createMessageSender( type: MessageType.Private, userID: number ): SendFunc;
+    createMessageSender( type: MessageType.Group, groupID: number, userID?: number | "all" ): SendFunc;
+}
+```
+
+以函数重载方式定义，根据传入的 `type` 参数不同，接受不同的参数。
+
+- 重载1：私聊消息发送方法
+  - `type` 固定为 `MessageType.Private` 或 `1`
+  - `userID` 发送目标用户 id
+- 重载2：群聊消息发送方法
+  - `type` 固定为 `MessageType.Group` 或 `0`
+  - `groupID` 群聊 id
+  - `userID` 可选，发送目标用户 id 或 `all`，在群聊发送消息时默认情况下会 at 目标用户或全体成员。若不传递则仅发送普通群聊消息。
+- 返回值：发送消息方法
+    - `content` 发送内容
+    - `allowAt` 可选，默认为 `config.atUser` 所配置的值，发送位置为群聊时是否 at 发送目标。可以手动传入 `true` 或 `false` 覆盖行为
+
+创建一个目标固定的发送消息方法，旨在替代 `getSendMessageFunc()` 的混乱参数类型。  
+与 `getSendMessageFunc()` 方法不同的是，该方法创建的群聊发送消息方法可以自行定义是否 at 群内目标，而不需要考虑 `config.atUser` 配置项的值。
 
 ## sendMaster()
 

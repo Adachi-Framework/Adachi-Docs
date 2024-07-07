@@ -2,7 +2,7 @@
 
 通过 `PluginSetting.config.register` 方法，开发者可以实现在 `config` 目录下创建自己的配置文件，或与已存在的配置文件做深层对比来更新新增的配置项。
 
-方法的详细内容可以查看 [config 工具类 Api-register](../../api/config.md#register)
+方法的详细内容可以查看 [config 工具类 Api-register](../../api/global/config.md#register)
 
 ## 示例
 

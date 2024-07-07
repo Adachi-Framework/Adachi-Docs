@@ -48,7 +48,7 @@ const detail = bot.command.getSingle( AuthLevel.User, MessageScope.Both );
 
 在 `Adachi-BOT` 中，每一个插件提供的指令均被实例化为一个指令实例。实例包含了指令自身的相关信息，与一些便利的操作方法。
 
-详情可以查看 [工具类 Command API - 指令实例](../../api/command.md#指令实例)，这里仅列举部分内容。
+详情可以查看 [工具类 Command API - 指令实例](../../api/global/command.md#指令实例)，这里仅列举部分内容。
 
 ### 获取实例信息属性
 
