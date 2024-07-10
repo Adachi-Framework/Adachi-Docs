@@ -1,6 +1,9 @@
-const fs = require( "fs" );
-const path = require( "path" );
-const AliOss = require( "ali-oss" );
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import AliOss from "ali-oss";
+
+const __dirname = path.dirname( fileURLToPath( import.meta.url ) );
 
 const config = JSON.parse( fs.readFileSync( path.resolve( __dirname, "./ali-oss.config.json" ), "utf-8" ) );
 const oss = new AliOss( config );
@@ -23,7 +26,7 @@ const oss = new AliOss( config );
 	} ) );
 	
 	console.log( "正在上传新静态文件" );
-	const distFileList = await getDirFileList( `docs/.vuepress/dist` );
+	const distFileList = await getDirFileList( `dist` );
 	// 上传 dist 文件
 	await Promise.all( distFileList.map( async file => {
 		return oss.put( file.name, file.path );
