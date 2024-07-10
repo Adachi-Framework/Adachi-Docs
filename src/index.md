@@ -13,6 +13,9 @@ hero:
     - theme: alt
       text: 开发者指南
       link: /guide/quick_start
+    - theme: alt
+      text: 本文档Github
+      link: https://github.com/Adachi-Framework/Adachi-Docs
 
 features:
   - title: 规范
