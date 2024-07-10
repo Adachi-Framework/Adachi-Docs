@@ -16,6 +16,9 @@ hero:
     - theme: alt
       text: 本文档Github
       link: https://github.com/Adachi-Framework/Adachi-Docs
+    - theme: alt
+      text: 官方聊天室
+      link: https://chat.adachi.work/
 
 features:
   - title: 规范
