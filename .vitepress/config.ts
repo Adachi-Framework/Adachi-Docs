@@ -12,7 +12,12 @@ export default defineConfig({
 	themeConfig: {
 		// https://vitepress.dev/reference/default-theme-config
 		siteTitle: "Adachi-BOT",
-		lastUpdatedText: "最后编辑于",
+		lastUpdated: {
+			text: "最后编辑于"
+		},
+		search: {
+			provider: "local"
+		},
 		outline: {
 			label: "页面导航",
 		},
