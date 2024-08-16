@@ -87,8 +87,8 @@ export interface PluginSetting {
         getUser: ( bot: BOT ) => Promise<SubUser> | SubUser;
         reSub: ( userId: number, type: "private" | "group", bot: BOT ) => Promise<void> | void;
     }[];
-    mounted?: PluginHook; // 钩子函数：插件加载完毕时触发
-    unmounted?: PluginHook; // 钩子函数：插件卸载/重载时触发
+    mounted?: PluginHook; // 钩子函数：实现端连接后，插件初次加载/重载触发
+    unmounted?: PluginHook; // 钩子函数：插件重载时触发
 }
 ```
 
@@ -134,12 +134,12 @@ export interface PluginSetting {
 
 ### mounted
 
-将在插件加载生命周期的最后后执行，支持同步或异步方法，接受类型为 `PluginParameter` 的形参，包含 `BOT` 工具类与额外的配置项注册方法 `configRegister`、渲染器注册方法 `renderRegister` 与别名设置方法 `setAlias`。
+在**实现端连接后的插件初次加载**或**卸载后重新加载**时执行，支持同步或异步方法，接受类型为 `PluginParameter` 的形参，包含 `BOT` 工具类与额外的配置项注册方法 `configRegister`、渲染器注册方法 `renderRegister` 与别名设置方法 `setAlias`。
 
 详情见 [生命周期钩子-mounted](./lifecycle#mounted)
 
 ### unmounted
 
-在插件卸载或重载时执行，与 mounted 类型一致。强烈建议在此钩子中注销会影响插件重载的逻辑，如释放监听端口等。
+在插件重载时执行，与 mounted 类型一致。强烈建议在此钩子中注销会影响插件重载的逻辑，如释放监听端口等。
 
 详情见 [生命周期钩子-unmounted](./lifecycle#unmounted)
