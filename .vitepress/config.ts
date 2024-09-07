@@ -102,6 +102,9 @@ export default defineConfig({
 					text: "相关声明",
 					link: "/plugin/genshin/statement"
 				}, {
+					text: "设备绑定",
+					link: "/plugin/genshin/device"
+				}, {
 					text: "致谢",
 					link: "/plugin/genshin/thanks"
 				} ]
