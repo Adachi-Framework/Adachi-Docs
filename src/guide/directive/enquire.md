@@ -90,9 +90,33 @@ export interface EnquireMatchResult {
 
 指令超时时间。
 
+### 触发阶段中止指令
+
+默认情况下，指令经过 `activate` 初次触发阶段后，将会进入等待 `confirm` 消息状态。但我们也可以通关返回一个布尔值 `false` 改变这一行为：
+
+```ts
+export default defineDirective( "enquire", i => {
+    if ( i.matchResult.status === "activate" ) {
+        // 你的代码
+        return false;
+    }
+} );
+```
+
+当框架获取到 `false` 返回值时，将会直接中止这一次的 enquire 指令的进行，不再进入等待 `confirm` 消息状态。
+
 ### 覆盖终止回答默认行为
 
-默认情况下，用户只需回答一次即可终止本次问答。指令也提供了一种方式来覆盖次默认行为： 当 [matchResult.status](#status) 的值为 `confirm` 时，在入口函数中执行 `return false` 来禁止终止问答默认行为。
+默认情况下，用户只需回答一次即可终止本次问答。指令也提供了一种方式来覆盖次默认行为： 当 [matchResult.status](#status) 的值为 `confirm` 时，在入口函数中执行 `return false` 来禁止终止问答默认行为，框架将会再次进入等待 `confirm` 消息状态。
+
+```ts
+export default defineDirective( "enquire", i => {
+    if ( i.matchResult.status === "confirm" ) {
+        // 你的代码
+        return false;
+    }
+} );
+```
 
 通常这可以用来根据用户回答内容是否有效来决定是否结束问答。
 

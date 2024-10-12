@@ -143,7 +143,7 @@ interface ScreenshotRendererMethods {
 
 - `route` 目标网页路径，可为相对路径或完整 url
 - `params` 可选，将会解析为 html 参数字符串后拼接到最终网页路径后
-- `viewPort` 可选，页面视口配置
+- `viewPort` 可选，页面视口配置。若设置了 `viewport.deviceScaleFactor`，会与 [directive.yml/imageQuality](../../config/base.md#imagequality) **相乘**得到最终缩放结果，最终结果将会保证不超过 `5`。
 - `selector` 可选，截图目标的 css 选择器，用于覆盖渲染实例的 `defaultSelector`
 - 返回值: 渲染结果，data 类型为 `string`
 
@@ -157,10 +157,7 @@ interface ScreenshotRendererMethods {
 }
 ```
 
-- `route` 目标网页路径，可为相对路径或完整 url
-- `params` 可选，将会解析为 html 参数字符串后拼接到最终网页路径后
-- `viewPort` 可选，页面视口配置
-- `selector` 可选，截图目标的 css 选择器，用于覆盖渲染实例的 `defaultSelector`
+- 参数与 [asBase64()](#asbase64) 相同
 - 返回值: 渲染结果，data 类型为 `ImageElem`
 
 打开指定的网页后，对选择器所指定的目标进行截图，并返回可直接用于发送的 `ImageElem` 格式的图片内容。
@@ -177,7 +174,7 @@ interface ScreenshotRendererMethods {
 - `pageFunction` 自定义操作方法，接受一个 page 页面对象
     - `page` Puppeteer 页面对象 [Page](https://pptr.dev/api/puppeteer.page/)
     - 返回值: 自定义捕获到的内容
-- `viewPort` 可选，页面视口配置
+- `viewPort` 可选，页面视口配置，注意事项同 [asBase64()](#asbase64)
 - `params` 可选，将会解析为 html 参数字符串后拼接到最终网页路径后
 - 返回值: 渲染结果
 

@@ -66,6 +66,21 @@ interface ScreenshotRendererMethods {
 * viewPort: 可选参数，用于设置页面的视口，详见 [Viewport interface](https://pptr.dev/api/puppeteer.viewport)。
 * params: 可选参数，对象格式，将被格式化为 `a=x&b=x` 的键值对格式跟随在 `route` 后，作为查询参数使用。
 
+> 需要注意的是，对于 `viewPort` 参数，由于存在 [directive.yml/imageQuality](../../config/base.md#imagequality) 配置项，
+> 如果您设置了 `viewport.deviceScaleFactor`，框架将会把这两者的值做**相乘**处理并应用于最终的缩放倍数。若最终计算结果超过了 `5`，则会以 `5` 作为最终值。
+> 
+> 这在代码中是这样实现的（[src/modules/renderer.ts:206](https://github.com/SilveryStar/Adachi-BOT/blob/main/src/modules/renderer.ts#L206)）:
+> ```typescript
+> // 若开发者指定了缩放比例，则将开发者指定的缩放比例乘以用户方所配置的缩放比例，考虑到设备承受能力问题，结果最大不能超过 5
+> private getViewport( viewPort: puppeteer.Viewport ): puppeteer.Viewport {
+>     const factor = ( viewPort.deviceScaleFactor || 1 ) * this.config.imageQuality;
+>     return {
+>         ...viewPort,
+>         deviceScaleFactor: factor > 5 ? 5 : factor
+>     }
+> }
+> ```
+
 三者存在共同的返回值类型 `RenderResult`：
 
 ```ts
