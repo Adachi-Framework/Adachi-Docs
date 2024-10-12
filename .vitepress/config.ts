@@ -129,6 +129,9 @@ export default defineConfig({
 					text: "插件声明",
 					link: "/guide/plugin/"
 				}, {
+					text: "使用 npm 依赖",
+					link: "/guide/plugin/use_module"
+				}, {
 					text: "公共 express-server",
 					link: "/guide/plugin/public_server"
 				}, {
